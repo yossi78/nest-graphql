@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "69706c2c-bc91-43e1-804b-b85581516f88",
+		"name": "User Management API",
+		"description": "GraphQL API for managing users with CRUD operations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "513031"
+	},
+	"item": [
+		{
+			"name": "Create User  -1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"mutation {\\n  createUser(data: {\\n    firstName: \\\"Timi\\\",\\n    lastName: \\\"Petrov\\\",\\n    birthDate: \\\"1986-08-11T11:45:46.329Z\\\",\\n    city: HAIFA\\n  }) {\\n    id\\n    firstName\\n    lastName\\n    city {\\n      name\\n    }\\n    createdAt\\n  }\\n}\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Create a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "Create User  -2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"mutation {\\n  createUser(data: {\\n    firstName: \\\"Yossi\\\",\\n    lastName: \\\"Tal\\\",\\n    birthDate: \\\"1978-09-01T11:45:46.329Z\\\",\\n    city: OR_YEHUDA\\n  }) {\\n    id\\n    firstName\\n    lastName\\n    city {\\n      name\\n    }\\n    createdAt\\n  }\\n}\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Create a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"query {\\n  users {\\n    id\\n    firstName\\n    lastName\\n    birthDate\\n    city {\\n      name\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Get all users"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by ID",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"query($id: ID!) {\\n  user(id: $id) {\\n    id\\n    firstName\\n    lastName\\n    birthDate\\n    city {\\n      name\\n    }\\n    createdAt\\n    updatedAt\\n  }\\n}\",\r\n    \"variables\": {\r\n        \"id\": \"4\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Get a user by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"mutation($id: ID!, $data: UpdateUserInput!) {\\n  updateUser(id: $id, data: $data) {\\n    id\\n    firstName\\n    lastName\\n    city {\\n      name\\n    }\\n    updatedAt\\n  }\\n}\",\r\n    \"variables\": {\r\n        \"id\": \"4\",\r\n        \"data\": {\r\n            \"firstName\": \"Updated Name\",\r\n            \"city\": \"TEL_AVIV\"\r\n        }\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Update an existing user"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"query\": \"mutation($id: ID!) {\\n  deleteUser(id: $id)\\n}\",\r\n    \"variables\": {\r\n        \"id\": \"4\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "Delete a user"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:4000"
+		}
+	]
+}
