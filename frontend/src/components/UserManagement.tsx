@@ -164,10 +164,12 @@ function UserManagement() {
   const handleEdit = (user: User) => {
     setIsEditing(true);
     setCurrentUser(user);
+    const date = new Date(user.birthDate);
+    const adjustedDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     setFormData({
       firstName: user.firstName,
       lastName: user.lastName,
-      birthDate: user.birthDate.split('T')[0],
+      birthDate: adjustedDate.toISOString().split('T')[0],
       city: user.city.name.replace(/-/g, '_').toUpperCase() as CityType
     });
     setOpen(true);
@@ -180,10 +182,11 @@ function UserManagement() {
 
   const handleSubmit = async () => {
     try {
-      // Convert date to ISO format with time
+      const date = new Date(formData.birthDate);
+      const adjustedDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
       const formattedData = {
         ...formData,
-        birthDate: new Date(formData.birthDate + 'T00:00:00').toISOString()
+        birthDate: adjustedDate.toISOString()
       };
 
       if (isEditing && currentUser) {
@@ -245,7 +248,13 @@ function UserManagement() {
           </Button>
         </Box>
 
-        {searchedUser?.user && (
+        {searchId && !searchedUser?.user && (
+          <Alert severity="warning">
+            There is no user found with ID: {searchId}
+          </Alert>
+        )}
+
+        {searchId && searchedUser?.user && (
           <Alert severity="info">
             Found user: {searchedUser.user.firstName} {searchedUser.user.lastName} from {searchedUser.user.city.name}
           </Alert>
@@ -275,6 +284,9 @@ function UserManagement() {
               onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
               fullWidth
               InputLabelProps={{ shrink: true }}
+              inputProps={{
+                max: new Date().toISOString().split('T')[0],  // Set max date to today
+              }}
             />
             <FormControl fullWidth>
               <InputLabel>City</InputLabel>
@@ -300,36 +312,70 @@ function UserManagement() {
         </DialogActions>
       </Dialog>
 
-      {data?.users?.map((user: User) => (
-        <Box
-          key={user.id}
-          sx={{
-            p: 2,
-            mb: 2,
-            border: '1px solid #ddd',
-            borderRadius: 1,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center'
-          }}
-        >
-          <Box>
-            <strong>ID: {user.id}</strong> - {user.firstName} {user.lastName}
-            <br />
-            City: {user.city.name}
-            <br />
-            Birth Date: {new Date(user.birthDate).toLocaleDateString()}
+      {searchId ? (
+        // Show searched user if found, nothing if not found
+        searchedUser?.user ? (
+          <Box
+            sx={{
+              p: 2,
+              mb: 2,
+              border: '1px solid #ddd',
+              borderRadius: 1,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Box>
+              <strong>ID: {searchedUser.user.id}</strong> - {searchedUser.user.firstName} {searchedUser.user.lastName}
+              <br />
+              Birth Date: {new Date(searchedUser.user.birthDate).toLocaleDateString()}
+              <br />
+              City: {searchedUser.user.city.name}
+            </Box>
+            <Box>
+              <IconButton onClick={() => handleEdit(searchedUser.user)} color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => handleDelete(searchedUser.user.id)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </Box>
-          <Box>
-            <IconButton onClick={() => handleEdit(user)} color="primary">
-              <EditIcon />
-            </IconButton>
-            <IconButton onClick={() => handleDelete(user.id)} color="error">
-              <DeleteIcon />
-            </IconButton>
+        ) : null
+      ) : (
+        // Show all users when no search is active
+        data?.users?.map((user: User) => (
+          <Box
+            key={user.id}
+            sx={{
+              p: 2,
+              mb: 2,
+              border: '1px solid #ddd',
+              borderRadius: 1,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <Box>
+              <strong>ID: {user.id}</strong> - {user.firstName} {user.lastName}
+              <br />
+              Birth Date: {new Date(user.birthDate).toLocaleDateString()}
+              <br />
+              City: {user.city.name}
+            </Box>
+            <Box>
+              <IconButton onClick={() => handleEdit(user)} color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => handleDelete(user.id)} color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Box>
           </Box>
-        </Box>
-      ))}
+        ))
+      )}
     </Box>
   );
 }
