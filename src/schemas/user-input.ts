@@ -1,5 +1,5 @@
 import { InputType, Field } from "type-graphql";
-import { CityName } from "../entities/City";
+import { CityName } from "../entities/city.entity";
 import { registerEnumType } from "type-graphql";
 
 // Register the CityName enum with GraphQL

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { User } from "./User";
+import { User } from "./user.entity";
 
 export enum CityName {
   OR_YEHUDA = "Or-Yehuda",

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Arg, ID } from "type-graphql";
-import { User } from "../entities/User";
-import { City, CityName } from "../entities/City";
-import { CreateUserInput, UpdateUserInput } from "../schemas/UserInput";
+import { User } from "../entities/user.entity";
+import { City, CityName } from "../entities/city.entity";
+import { CreateUserInput, UpdateUserInput } from "../schemas/user-input";
 import { AppDataSource } from "../config/database";
 
 @Resolver()

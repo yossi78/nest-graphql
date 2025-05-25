@@ -5,7 +5,7 @@ import express from "express";
 import { json } from "body-parser";
 import cors from "cors";
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolvers/UserResolver";
+import { UserResolver } from "./resolvers/user-resolver";
 import { AppDataSource } from "./config/database";
 
 async function bootstrap() {

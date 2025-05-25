@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { ObjectType, Field, ID } from "type-graphql";
-import { City } from "./City";
+import { City } from "./city.entity";
 
 @ObjectType()
 @Entity()
