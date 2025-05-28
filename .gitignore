@@ -1,1 +1,7 @@
 node_modules
+
+# IDE files
+modules.xml
+nest-graph.iml
+nest-graphql.iml
+vcs.xml
